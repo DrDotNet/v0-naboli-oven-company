@@ -1,0 +1,16 @@
+# Robots.txt for Napoli Refractory Ovens
+# https://napoli-ovens.com
+
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://napoli-ovens.com/sitemap.xml
+
+# Crawl-delay for respectful crawling
+Crawl-delay: 1
+
+# Block unnecessary paths
+Disallow: /api/
+Disallow: /_next/
+Disallow: /private/
