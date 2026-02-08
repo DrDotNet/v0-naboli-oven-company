@@ -49,10 +49,9 @@ const translations = {
     'royalflame.description': 'Our flagship circular stone series. The pinnacle of oven craftsmanship.',
     
     // Interior Types
-    'interior.iron_stone': 'Iron/Stone',
-    'interior.refractory_cement': 'Refractory Cement',
-    'interior.rectangular_stone': 'Rectangular Stone',
-    'interior.circular_stone': 'Circular Stone',
+    'interior.iron': 'Iron',
+    'interior.cement': 'Refractory Cement',
+    'interior.stone': 'Stone',
     
     // Extensions
     'extensions.title': 'Product Extensions',
@@ -150,10 +149,9 @@ const translations = {
     'royalflame.description': 'سلسلتنا الرائدة بالحجر الدائري. قمة الحرفية في صناعة الأفران.',
     
     // Interior Types
-    'interior.iron_stone': 'حديد/حجر',
-    'interior.refractory_cement': 'أسمنت حراري',
-    'interior.rectangular_stone': 'حجر مستطيل',
-    'interior.circular_stone': 'حجر دائري',
+    'interior.iron': 'حديد',
+    'interior.cement': 'أسمنت حراري',
+    'interior.stone': 'حجر',
     
     // Extensions
     'extensions.title': 'ملحقات المنتجات',

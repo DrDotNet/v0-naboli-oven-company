@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog'
-import { Shield, Flame, Circle, Square, ChevronLeft, ChevronRight, Ruler, Box, Layers, ZoomIn, X } from 'lucide-react'
+import { Shield, Flame, Square, ChevronLeft, ChevronRight, Ruler, Box, Layers, ZoomIn, X, DoorOpen, Circle } from 'lucide-react'
 
 type FilterType = 'all' | 'titan' | 'titanpro' | 'stonefire' | 'royalflame'
 
@@ -43,17 +43,15 @@ export function OvenCatalog() {
   
   const getInteriorIcon = (interior: OvenModel['interior']) => {
     switch (interior) {
-      case 'iron_stone': return <Flame className="h-4 w-4" />
-      case 'refractory_cement': return <Shield className="h-4 w-4" />
-      case 'rectangular_stone': return <Square className="h-4 w-4" />
-      case 'circular_stone': return <Circle className="h-4 w-4" />
+      case 'iron': return <Flame className="h-4 w-4" />
+      case 'cement': return <Shield className="h-4 w-4" />
+      case 'stone': return <Square className="h-4 w-4" />
     }
   }
   
   const getWarrantyColor = (warranty: number) => {
     switch (warranty) {
       case 3: return 'bg-muted text-muted-foreground'
-      case 6: return 'bg-gold/20 text-gold'
       case 10: return 'bg-terracotta/20 text-terracotta'
       default: return 'bg-muted text-muted-foreground'
     }
@@ -309,6 +307,17 @@ export function OvenCatalog() {
                             </td>
                             <td className="py-3 px-4 text-muted-foreground">
                               {shapeTranslations[selectedOven.specs.shape][language]}
+                            </td>
+                          </tr>
+                          <tr className="border-b border-charcoal/10">
+                            <td className="py-3 px-4 font-medium text-charcoal bg-charcoal/5">
+                              <div className="flex items-center gap-2">
+                                <DoorOpen className="h-4 w-4 text-terracotta" />
+                                {specLabels.doorDimensions[language]}
+                              </div>
+                            </td>
+                            <td className="py-3 px-4 text-muted-foreground">
+                              {selectedOven.specs.doorDimensions}
                             </td>
                           </tr>
                           <tr className="border-b border-charcoal/10">
