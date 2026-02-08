@@ -2,12 +2,12 @@
 
 import { useState } from 'react'
 import { useLanguage } from '@/lib/language-context'
-import { ovenModels, seriesInfo, type OvenModel } from '@/lib/oven-data'
+import { ovenModels, seriesInfo, shapeTranslations, specLabels, type OvenModel } from '@/lib/oven-data'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog'
-import { Shield, Flame, Circle, Square, Check } from 'lucide-react'
+import { Shield, Flame, Circle, Square, ChevronLeft, ChevronRight, Ruler, Box, Layers, ZoomIn, X } from 'lucide-react'
 
 type FilterType = 'all' | 'titan' | 'titanpro' | 'stonefire' | 'royalflame'
 
@@ -16,6 +16,9 @@ export function OvenCatalog() {
   const [filter, setFilter] = useState<FilterType>('all')
   const [selectedOven, setSelectedOven] = useState<OvenModel | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false)
+  const [lightboxImage, setLightboxImage] = useState<string | null>(null)
   
   const filters: { key: FilterType; label: string }[] = [
     { key: 'all', label: t('ovens.filter.all') },
@@ -65,32 +68,36 @@ export function OvenCatalog() {
   
   const handleViewDetails = (model: OvenModel) => {
     setSelectedOven(model)
+    setCurrentImageIndex(0)
     setIsModalOpen(true)
   }
   
   const handleCloseModal = () => {
     setIsModalOpen(false)
     setSelectedOven(null)
+    setCurrentImageIndex(0)
   }
   
-  // Features for each series
-  const seriesFeatures: Record<string, { en: string[]; ar: string[] }> = {
-    titan: {
-      en: ['Iron stone interior', 'Quick heat-up', 'Compact design', '3-year warranty'],
-      ar: ['داخلية من الحجر الحديدي', 'تسخين سريع', 'تصميم مدمج', 'ضمان 3 سنوات'],
-    },
-    titanpro: {
-      en: ['Refractory cement interior', 'Professional grade', 'Enhanced insulation', '6-year warranty'],
-      ar: ['داخلية من الإسمنت الحراري', 'جودة احترافية', 'عزل محسّن', 'ضمان 6 سنوات'],
-    },
-    stonefire: {
-      en: ['Rectangular stone interior', 'Superior heat retention', 'Premium construction', '10-year warranty'],
-      ar: ['داخلية من الحجر المستطيل', 'احتفاظ فائق بالحرارة', 'بناء فاخر', 'ضمان 10 سنوات'],
-    },
-    royalflame: {
-      en: ['Circular stone interior', 'Traditional dome design', 'Ultimate performance', '10-year warranty'],
-      ar: ['داخلية من الحجر الدائري', 'تصميم قبة تقليدي', 'أداء استثنائي', 'ضمان 10 سنوات'],
-    },
+  const handleNextImage = () => {
+    if (selectedOven) {
+      setCurrentImageIndex((prev) => (prev + 1) % selectedOven.images.length)
+    }
+  }
+  
+  const handlePrevImage = () => {
+    if (selectedOven) {
+      setCurrentImageIndex((prev) => (prev - 1 + selectedOven.images.length) % selectedOven.images.length)
+    }
+  }
+  
+  const openLightbox = (imageUrl: string) => {
+    setLightboxImage(imageUrl)
+    setIsLightboxOpen(true)
+  }
+  
+  const closeLightbox = () => {
+    setIsLightboxOpen(false)
+    setLightboxImage(null)
   }
   
   return (
@@ -152,7 +159,7 @@ export function OvenCatalog() {
                         {/* Oven Image */}
                         <div className="aspect-[4/3] relative overflow-hidden">
                           <img 
-                            src={model.image || "/placeholder.svg"} 
+                            src={model.images[0] || "/placeholder.svg"} 
                             alt={`${model.name} - ${t(info.nameKey)}`}
                             className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                           />
@@ -160,6 +167,12 @@ export function OvenCatalog() {
                           <div className="absolute bottom-3 left-3 right-3">
                             <span className="text-2xl font-bold text-cream drop-shadow-lg">{model.name}</span>
                           </div>
+                          {/* Image count indicator */}
+                          {model.images.length > 1 && (
+                            <div className={`absolute top-2 ${dir === 'rtl' ? 'left-2' : 'right-2'} bg-charcoal/70 text-cream text-xs px-2 py-1 rounded-full`}>
+                              {model.images.length} {language === 'ar' ? 'صور' : 'photos'}
+                            </div>
+                          )}
                         </div>
                       </CardHeader>
                       <CardContent className="py-3 px-4">
@@ -188,10 +201,9 @@ export function OvenCatalog() {
       
       {/* Oven Details Modal */}
       <Dialog open={isModalOpen} onOpenChange={handleCloseModal}>
-        <DialogContent className="bg-card border-charcoal/20 max-w-2xl" dir={dir}>
+        <DialogContent className="bg-card border-charcoal/20 max-w-3xl max-h-[90vh] overflow-y-auto" dir={dir}>
           {selectedOven && (() => {
             const info = seriesInfo[selectedOven.series]
-            const features = seriesFeatures[selectedOven.series]?.[language] || []
             return (
               <>
                 <DialogHeader>
@@ -204,45 +216,162 @@ export function OvenCatalog() {
                 </DialogHeader>
                 
                 <div className="mt-4">
-                  <div className="aspect-video relative overflow-hidden rounded-lg mb-6">
-                    <img 
-                      src={selectedOven.image || "/placeholder.svg"} 
-                      alt={`${selectedOven.name} - ${t(info.nameKey)}`}
-                      className="absolute inset-0 w-full h-full object-cover"
-                    />
-                    <Badge className={`absolute top-3 ${dir === 'rtl' ? 'left-3' : 'right-3'} ${getWarrantyColor(info.warranty)}`}>
-                      <Shield className="h-3 w-3 me-1" />
-                      {info.warranty} {t('ovens.warranty')}
-                    </Badge>
-                  </div>
-                  
-                  <div className="space-y-4">
-                    <div>
-                      <h4 className="text-lg font-semibold text-charcoal mb-2">
-                        {language === 'ar' ? 'نوع البطانة الداخلية' : 'Interior Type'}
-                      </h4>
-                      <div className="flex items-center gap-2 text-muted-foreground">
-                        {getInteriorIcon(selectedOven.interior)}
-                        <span>{t(`interior.${selectedOven.interior}`)}</span>
+                  {/* Image Gallery */}
+                  <div className="relative mb-6">
+                    <div className="aspect-video relative overflow-hidden rounded-lg group/image cursor-pointer" onClick={() => openLightbox(selectedOven.images[currentImageIndex])}>
+                      <img 
+                        src={selectedOven.images[currentImageIndex] || "/placeholder.svg"} 
+                        alt={`${selectedOven.name} - ${t(info.nameKey)} - ${currentImageIndex + 1}`}
+                        className="absolute inset-0 w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-charcoal/0 group-hover/image:bg-charcoal/30 transition-colors flex items-center justify-center">
+                        <div className="opacity-0 group-hover/image:opacity-100 transition-opacity bg-charcoal/70 text-cream px-4 py-2 rounded-lg flex items-center gap-2">
+                          <ZoomIn className="h-5 w-5" />
+                          <span className="text-sm">{language === 'ar' ? 'تكبير الصورة' : 'Expand Image'}</span>
+                        </div>
                       </div>
+                      <Badge className={`absolute top-3 ${dir === 'rtl' ? 'left-3' : 'right-3'} ${getWarrantyColor(info.warranty)}`}>
+                        <Shield className="h-3 w-3 me-1" />
+                        {info.warranty} {t('ovens.warranty')}
+                      </Badge>
                     </div>
                     
-                    <div>
-                      <h4 className="text-lg font-semibold text-charcoal mb-2">
-                        {language === 'ar' ? 'المميزات' : 'Features'}
-                      </h4>
-                      <div className="grid grid-cols-2 gap-2">
-                        {features.map((feature, i) => (
-                          <div key={i} className="flex items-center gap-2 text-muted-foreground">
-                            <Check className="h-4 w-4 text-terracotta flex-shrink-0" />
-                            <span className="text-sm">{feature}</span>
-                          </div>
+                    {/* Navigation Arrows */}
+                    {selectedOven.images.length > 1 && (
+                      <>
+                        <button
+                          onClick={handlePrevImage}
+                          className={`absolute top-1/2 -translate-y-1/2 ${dir === 'rtl' ? 'right-2' : 'left-2'} bg-charcoal/70 hover:bg-charcoal text-cream p-2 rounded-full transition-colors`}
+                          aria-label={language === 'ar' ? 'الصورة السابقة' : 'Previous image'}
+                        >
+                          {dir === 'rtl' ? <ChevronRight className="h-5 w-5" /> : <ChevronLeft className="h-5 w-5" />}
+                        </button>
+                        <button
+                          onClick={handleNextImage}
+                          className={`absolute top-1/2 -translate-y-1/2 ${dir === 'rtl' ? 'left-2' : 'right-2'} bg-charcoal/70 hover:bg-charcoal text-cream p-2 rounded-full transition-colors`}
+                          aria-label={language === 'ar' ? 'الصورة التالية' : 'Next image'}
+                        >
+                          {dir === 'rtl' ? <ChevronLeft className="h-5 w-5" /> : <ChevronRight className="h-5 w-5" />}
+                        </button>
+                      </>
+                    )}
+                    
+                    {/* Image Thumbnails */}
+                    {selectedOven.images.length > 1 && (
+                      <div className="flex justify-center gap-2 mt-3">
+                        {selectedOven.images.map((img, idx) => (
+                          <button
+                            key={idx}
+                            onClick={() => setCurrentImageIndex(idx)}
+                            className={`w-16 h-12 rounded overflow-hidden border-2 transition-all ${
+                              idx === currentImageIndex 
+                                ? 'border-terracotta' 
+                                : 'border-transparent opacity-60 hover:opacity-100'
+                            }`}
+                          >
+                            <img 
+                              src={img || "/placeholder.svg"} 
+                              alt={`${selectedOven.name} thumbnail ${idx + 1}`}
+                              className="w-full h-full object-cover"
+                            />
+                          </button>
                         ))}
                       </div>
+                    )}
+                  </div>
+                  
+                  {/* Specifications Table */}
+                  <div className="mb-6">
+                    <h4 className="text-lg font-semibold text-charcoal mb-4 flex items-center gap-2">
+                      <Ruler className="h-5 w-5 text-terracotta" />
+                      {language === 'ar' ? 'المواصفات التفصيلية' : 'Detailed Specifications'}
+                    </h4>
+                    <div className="bg-cream rounded-lg overflow-hidden">
+                      <table className="w-full">
+                        <tbody>
+                          <tr className="border-b border-charcoal/10">
+                            <td className="py-3 px-4 font-medium text-charcoal bg-charcoal/5 w-1/2">
+                              <div className="flex items-center gap-2">
+                                <Ruler className="h-4 w-4 text-terracotta" />
+                                {specLabels.totalHeight[language]}
+                              </div>
+                            </td>
+                            <td className="py-3 px-4 text-muted-foreground">
+                              {selectedOven.specs.totalHeight}
+                            </td>
+                          </tr>
+                          <tr className="border-b border-charcoal/10">
+                            <td className="py-3 px-4 font-medium text-charcoal bg-charcoal/5">
+                              <div className="flex items-center gap-2">
+                                <Circle className="h-4 w-4 text-terracotta" />
+                                {specLabels.shape[language]}
+                              </div>
+                            </td>
+                            <td className="py-3 px-4 text-muted-foreground">
+                              {shapeTranslations[selectedOven.specs.shape][language]}
+                            </td>
+                          </tr>
+                          <tr className="border-b border-charcoal/10">
+                            <td className="py-3 px-4 font-medium text-charcoal bg-charcoal/5">
+                              <div className="flex items-center gap-2">
+                                <Layers className="h-4 w-4 text-terracotta" />
+                                {specLabels.interiorMaterial[language]}
+                              </div>
+                            </td>
+                            <td className="py-3 px-4 text-muted-foreground">
+                              {selectedOven.specs.interiorMaterial}
+                            </td>
+                          </tr>
+                          <tr className="border-b border-charcoal/10">
+                            <td className="py-3 px-4 font-medium text-charcoal bg-charcoal/5">
+                              <div className="flex items-center gap-2">
+                                <Ruler className="h-4 w-4 text-terracotta" />
+                                {specLabels.interiorHeight[language]}
+                              </div>
+                            </td>
+                            <td className="py-3 px-4 text-muted-foreground">
+                              {selectedOven.specs.interiorHeight}
+                            </td>
+                          </tr>
+                          <tr className="border-b border-charcoal/10">
+                            <td className="py-3 px-4 font-medium text-charcoal bg-charcoal/5">
+                              <div className="flex items-center gap-2">
+                                <Box className="h-4 w-4 text-terracotta" />
+                                {specLabels.interiorDimensions[language]}
+                              </div>
+                            </td>
+                            <td className="py-3 px-4 text-muted-foreground">
+                              {selectedOven.specs.interiorDimensions}
+                            </td>
+                          </tr>
+                          <tr className="border-b border-charcoal/10">
+                            <td className="py-3 px-4 font-medium text-charcoal bg-charcoal/5">
+                              <div className="flex items-center gap-2">
+                                <Box className="h-4 w-4 text-terracotta" />
+                                {specLabels.exteriorDimensions[language]}
+                              </div>
+                            </td>
+                            <td className="py-3 px-4 text-muted-foreground">
+                              {selectedOven.specs.exteriorDimensions}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="py-3 px-4 font-medium text-charcoal bg-charcoal/5">
+                              <div className="flex items-center gap-2">
+                                <Shield className="h-4 w-4 text-terracotta" />
+                                {specLabels.warranty[language]}
+                              </div>
+                            </td>
+                            <td className="py-3 px-4 text-muted-foreground">
+                              {selectedOven.specs.warranty} {language === 'ar' ? 'سنوات' : 'Years'}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
                     </div>
                   </div>
                   
-                  <div className="mt-6 flex gap-3">
+                  <div className="flex gap-3">
                     <Button 
                       className="flex-1 bg-terracotta hover:bg-terracotta-dark text-cream"
                       onClick={() => {
@@ -266,6 +395,93 @@ export function OvenCatalog() {
           })()}
         </DialogContent>
       </Dialog>
+      
+      {/* Fullscreen Image Lightbox */}
+      {isLightboxOpen && lightboxImage && (
+        <div 
+          className="fixed inset-0 z-[100] bg-charcoal/95 flex items-center justify-center"
+          onClick={closeLightbox}
+        >
+          {/* Close Button */}
+          <button
+            onClick={closeLightbox}
+            className="absolute top-4 right-4 z-10 bg-cream/10 hover:bg-cream/20 text-cream p-3 rounded-full transition-colors"
+            aria-label={language === 'ar' ? 'إغلاق' : 'Close'}
+          >
+            <X className="h-6 w-6" />
+          </button>
+          
+          {/* Image Counter */}
+          {selectedOven && selectedOven.images.length > 1 && (
+            <div className="absolute top-4 left-4 bg-charcoal/70 text-cream px-3 py-1 rounded-full text-sm">
+              {currentImageIndex + 1} / {selectedOven.images.length}
+            </div>
+          )}
+          
+          {/* Navigation Arrows in Lightbox */}
+          {selectedOven && selectedOven.images.length > 1 && (
+            <>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation()
+                  handlePrevImage()
+                  setLightboxImage(selectedOven.images[(currentImageIndex - 1 + selectedOven.images.length) % selectedOven.images.length])
+                }}
+                className={`absolute top-1/2 -translate-y-1/2 ${dir === 'rtl' ? 'right-4' : 'left-4'} bg-cream/10 hover:bg-cream/20 text-cream p-3 rounded-full transition-colors`}
+                aria-label={language === 'ar' ? 'الصورة السابقة' : 'Previous image'}
+              >
+                {dir === 'rtl' ? <ChevronRight className="h-8 w-8" /> : <ChevronLeft className="h-8 w-8" />}
+              </button>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation()
+                  handleNextImage()
+                  setLightboxImage(selectedOven.images[(currentImageIndex + 1) % selectedOven.images.length])
+                }}
+                className={`absolute top-1/2 -translate-y-1/2 ${dir === 'rtl' ? 'left-4' : 'right-4'} bg-cream/10 hover:bg-cream/20 text-cream p-3 rounded-full transition-colors`}
+                aria-label={language === 'ar' ? 'الصورة التالية' : 'Next image'}
+              >
+                {dir === 'rtl' ? <ChevronLeft className="h-8 w-8" /> : <ChevronRight className="h-8 w-8" />}
+              </button>
+            </>
+          )}
+          
+          {/* Full Size Image */}
+          <img 
+            src={lightboxImage || "/placeholder.svg"} 
+            alt={selectedOven ? `${selectedOven.name} - Full Size` : 'Oven image'}
+            className="max-w-[90vw] max-h-[90vh] object-contain"
+            onClick={(e) => e.stopPropagation()}
+          />
+          
+          {/* Thumbnail Strip in Lightbox */}
+          {selectedOven && selectedOven.images.length > 1 && (
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 bg-charcoal/70 p-2 rounded-lg">
+              {selectedOven.images.map((img, idx) => (
+                <button
+                  key={idx}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setCurrentImageIndex(idx)
+                    setLightboxImage(img)
+                  }}
+                  className={`w-16 h-12 rounded overflow-hidden border-2 transition-all ${
+                    idx === currentImageIndex 
+                      ? 'border-terracotta' 
+                      : 'border-transparent opacity-60 hover:opacity-100'
+                  }`}
+                >
+                  <img 
+                    src={img || "/placeholder.svg"} 
+                    alt={`Thumbnail ${idx + 1}`}
+                    className="w-full h-full object-cover"
+                  />
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
     </section>
   )
 }

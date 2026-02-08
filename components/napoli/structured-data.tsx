@@ -146,7 +146,7 @@ export function StructuredData() {
         name: 'What is the warranty on Napoli ovens?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Napoli offers warranties ranging from 3 to 10 years depending on the series. Titan series comes with 3-year warranty, Titan Pro with 6-year warranty, and both StoneFire and Royal Flame series come with an industry-leading 10-year warranty.',
+          text: 'Napoli offers warranties ranging from 3 to 10 years depending on the series. Titan and Titan Pro series come with 3-year warranty, while both StoneFire and Royal Flame series come with an industry-leading 10-year warranty.',
         },
       },
       {
