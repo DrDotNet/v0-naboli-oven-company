@@ -5,7 +5,7 @@ import { useLanguage } from '@/lib/language-context'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog'
-import { Flame, Wrench, X } from 'lucide-react'
+import { Flame, Wrench } from 'lucide-react'
 
 interface Product {
   id: string
