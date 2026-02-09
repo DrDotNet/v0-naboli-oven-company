@@ -36,7 +36,7 @@ export function Header() {
             <img
               src="/images/logo.png"
               alt="Napoli Ovens Logo"
-              className="h-10 w-10 object-contain invert"
+              className="h-10 w-10 object-contain invert mix-blend-screen"
             />
             <div className="hidden sm:block">
               <span className="text-lg font-bold text-cream">Napoli</span>
