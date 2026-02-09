@@ -11,7 +11,7 @@ export function StructuredData() {
     name: 'Napoli Refractory Ovens',
     alternateName: 'أفران نابولي الحرارية',
     url: 'https://napoli-ovens.com',
-    logo: 'https://napoli-ovens.com/images/logo.png',
+    logo: 'https://napoli-ovens.com/images/logo.svg',
     description: language === 'ar' 
       ? 'الشركة الرائدة في تصنيع الأفران الحرارية الفاخرة في الشرق الأوسط'
       : 'Leading manufacturer of premium refractory ovens in the Middle East',
