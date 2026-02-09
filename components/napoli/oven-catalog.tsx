@@ -155,11 +155,11 @@ export function OvenCatalog() {
                     <Card key={model.id} className="bg-card border-charcoal/10 hover:shadow-lg transition-shadow group overflow-hidden">
                       <CardHeader className="p-0">
                         {/* Oven Image */}
-                        <div className="aspect-[4/3] relative overflow-hidden">
+                        <div className="aspect-[4/3] relative overflow-hidden bg-charcoal/5">
                           <img 
                             src={model.images[0] || "/placeholder.svg"} 
                             alt={`${model.name} - ${t(info.nameKey)}`}
-                            className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            className="absolute inset-0 w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-charcoal/70 via-transparent to-transparent" />
                           <div className="absolute bottom-3 left-3 right-3">
