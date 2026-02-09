@@ -14,21 +14,13 @@ export function Footer() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
           {/* Brand */}
           <div className="sm:col-span-2 lg:col-span-1">
-            <div className="flex items-center gap-2 mb-4">
+            <div className="flex items-center mb-4">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/images/logo.png"
                 alt="Napoli Ovens Logo"
-                width={48}
-                height={48}
-                className="h-12 w-auto object-contain brightness-0 invert"
+                className="h-14 w-auto object-contain invert"
               />
-              <div>
-                <span className="text-lg font-bold text-cream">Napoli</span>
-                <span className="block text-xs text-gold">
-                  {language === 'ar' ? 'أفران حرارية' : 'Refractory Ovens'}
-                </span>
-              </div>
             </div>
             <p className="text-cream/60 text-sm leading-relaxed">
               {t('footer.tagline')}
