@@ -31,16 +31,13 @@ export function Header() {
       <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-terracotta">
-              <span className="text-xl font-bold text-cream">N</span>
-            </div>
-            <div className="hidden sm:block">
-              <span className="text-lg font-bold text-cream">Napoli</span>
-              <span className="block text-xs text-gold">
-                {language === 'ar' ? 'أفران حرارية' : 'Refractory Ovens'}
-              </span>
-            </div>
+          <div className="flex items-center">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/logo.svg"
+              alt="Napoli Ovens Logo"
+              className="h-10 w-auto object-contain invert"
+            />
           </div>
           
           {/* Desktop Navigation */}
