@@ -14,10 +14,15 @@ export function Footer() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
           {/* Brand */}
           <div className="sm:col-span-2 lg:col-span-1">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-terracotta">
-                <span className="text-xl font-bold text-cream">N</span>
-              </div>
+            <div className="flex items-center gap-2 mb-4">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/images/logo.png"
+                alt="Napoli Ovens Logo"
+                width={48}
+                height={48}
+                className="h-12 w-auto object-contain brightness-0 invert"
+              />
               <div>
                 <span className="text-lg font-bold text-cream">Napoli</span>
                 <span className="block text-xs text-gold">

@@ -31,10 +31,15 @@ export function Header() {
       <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-terracotta">
-              <span className="text-xl font-bold text-cream">N</span>
-            </div>
+          <div className="flex items-center gap-2">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/logo.png"
+              alt="Napoli Ovens Logo"
+              width={48}
+              height={48}
+              className="h-12 w-auto object-contain brightness-0 invert"
+            />
             <div className="hidden sm:block">
               <span className="text-lg font-bold text-cream">Napoli</span>
               <span className="block text-xs text-gold">
