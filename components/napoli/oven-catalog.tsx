@@ -155,11 +155,11 @@ export function OvenCatalog() {
                     <Card key={model.id} className="bg-card border-charcoal/10 hover:shadow-lg transition-shadow group overflow-hidden">
                       <CardHeader className="p-0">
                         {/* Oven Image */}
-                        <div className="aspect-[4/3] relative overflow-hidden">
+                        <div className="aspect-[4/3] relative overflow-hidden bg-white">
                           <img 
                             src={model.images[0] || "/placeholder.svg"} 
                             alt={`${model.name} - ${t(info.nameKey)}`}
-                            className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            className="absolute inset-0 w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-charcoal/70 via-transparent to-transparent" />
                           <div className="absolute bottom-3 left-3 right-3">
@@ -216,11 +216,11 @@ export function OvenCatalog() {
                 <div className="mt-4">
                   {/* Image Gallery */}
                   <div className="relative mb-6">
-                    <div className="aspect-video relative overflow-hidden rounded-lg group/image cursor-pointer" onClick={() => openLightbox(selectedOven.images[currentImageIndex])}>
+                    <div className="aspect-video relative overflow-hidden rounded-lg group/image cursor-pointer bg-white" onClick={() => openLightbox(selectedOven.images[currentImageIndex])}>
                       <img 
                         src={selectedOven.images[currentImageIndex] || "/placeholder.svg"} 
                         alt={`${selectedOven.name} - ${t(info.nameKey)} - ${currentImageIndex + 1}`}
-                        className="absolute inset-0 w-full h-full object-cover"
+                        className="absolute inset-0 w-full h-full object-contain"
                       />
                       <div className="absolute inset-0 bg-charcoal/0 group-hover/image:bg-charcoal/30 transition-colors flex items-center justify-center">
                         <div className="opacity-0 group-hover/image:opacity-100 transition-opacity bg-charcoal/70 text-cream px-4 py-2 rounded-lg flex items-center gap-2">
@@ -261,7 +261,7 @@ export function OvenCatalog() {
                           <button
                             key={idx}
                             onClick={() => setCurrentImageIndex(idx)}
-                            className={`w-16 h-12 rounded overflow-hidden border-2 transition-all ${
+                            className={`w-16 h-12 rounded overflow-hidden border-2 transition-all bg-white ${
                               idx === currentImageIndex 
                                 ? 'border-terracotta' 
                                 : 'border-transparent opacity-60 hover:opacity-100'
@@ -270,7 +270,7 @@ export function OvenCatalog() {
                             <img 
                               src={img || "/placeholder.svg"} 
                               alt={`${selectedOven.name} thumbnail ${idx + 1}`}
-                              className="w-full h-full object-cover"
+                              className="w-full h-full object-contain"
                             />
                           </button>
                         ))}
@@ -474,7 +474,7 @@ export function OvenCatalog() {
                     setCurrentImageIndex(idx)
                     setLightboxImage(img)
                   }}
-                  className={`w-16 h-12 rounded overflow-hidden border-2 transition-all ${
+                  className={`w-16 h-12 rounded overflow-hidden border-2 transition-all bg-white ${
                     idx === currentImageIndex 
                       ? 'border-terracotta' 
                       : 'border-transparent opacity-60 hover:opacity-100'
@@ -483,7 +483,7 @@ export function OvenCatalog() {
                   <img 
                     src={img || "/placeholder.svg"} 
                     alt={`Thumbnail ${idx + 1}`}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain"
                   />
                 </button>
               ))}
