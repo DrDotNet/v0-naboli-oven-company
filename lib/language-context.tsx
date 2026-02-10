@@ -56,8 +56,8 @@ const translations = {
     // Extensions
     'extensions.title': 'Product Extensions',
     'extensions.subtitle': 'Complete your outdoor cooking experience',
-    'smokers.title': 'Premium Smokers',
-    'smokers.description': 'Artisan-crafted smokers for authentic wood-fired flavor. Perfect for meats, fish, and vegetables.',
+    'smokers.title': 'Premium Smokers & Grills',
+    'smokers.description': 'Artisan-crafted smokers and grills for authentic wood-fired flavor. Perfect for meats, fish, and vegetables.',
     'accessories.title': 'Accessories',
     'accessories.description': 'Essential tools and accessories to elevate your cooking: pizza peels, thermometers, covers, and more.',
     
@@ -156,8 +156,8 @@ const translations = {
     // Extensions
     'extensions.title': 'ملحقات المنتجات',
     'extensions.subtitle': 'أكمل تجربة الطهي في الهواء الطلق',
-    'smokers.title': 'مدخنات فاخرة',
-    'smokers.description': 'مدخنات مصنوعة يدوياً للنكهة الأصيلة للحطب. مثالية للحوم والأسماك والخضروات.',
+    'smokers.title': 'مدخنات وشوايات فاخرة',
+    'smokers.description': 'مدخنات وشوايات مصنوعة يدوياً للنكهة الأصيلة للحطب. مثالية للحوم والأسماك والخضروات.',
     'accessories.title': 'الإكسسوارات',
     'accessories.description': 'أدوات وإكسسوارات أساسية لرفع مستوى طهيك: مجارف البيتزا، موازين الحرارة، الأغطية والمزيد.',
     

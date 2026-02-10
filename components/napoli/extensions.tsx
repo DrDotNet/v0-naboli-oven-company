@@ -26,12 +26,12 @@ const smokers: Product[] = [
     featuresAr: ['صندوق نار جانبي', 'فولاذ شديد التحمل', 'فتحات قابلة للتعديل', 'مقياس حرارة'],
   },
   {
-    id: 'smoker-vertical',
+    id: 'grill-charcoal',
     nameKey: 'smoker.vertical.name',
     descriptionKey: 'smoker.vertical.description',
     image: '/images/smokers/smoker-vertical.jpg',
-    features: ['Multiple racks', 'Glass window', 'Wood chip tray', 'Digital control'],
-    featuresAr: ['رفوف متعددة', 'نافذة زجاجية', 'صينية رقائق الخشب', 'تحكم رقمي'],
+    features: ['Brick & steel build', 'Built-in chimney', 'Multi-level grates', 'Open-flame cooking'],
+    featuresAr: ['بناء طوب وفولاذ', 'مدخنة مدمجة', 'شبكات متعددة المستويات', 'طهي على اللهب المفتوح'],
   },
   {
     id: 'smoker-barrel',
@@ -82,8 +82,8 @@ const accessories: Product[] = [
 const productTranslations: Record<string, { en: string; ar: string }> = {
   'smoker.classic.name': { en: 'Classic Offset Smoker', ar: 'مدخنة كلاسيكية جانبية' },
   'smoker.classic.description': { en: 'Traditional offset smoker with heavy-duty construction for authentic wood-fired flavor.', ar: 'مدخنة جانبية تقليدية بتصميم متين للنكهة الأصيلة على الحطب.' },
-  'smoker.vertical.name': { en: 'Vertical Cabinet Smoker', ar: 'مدخنة عمودية' },
-  'smoker.vertical.description': { en: 'Space-efficient vertical design with multiple racks for smoking large quantities.', ar: 'تصميم عمودي موفر للمساحة مع رفوف متعددة لتدخين كميات كبيرة.' },
+  'smoker.vertical.name': { en: 'Charcoal Brick Grill', ar: 'شواية فحم من الطوب' },
+  'smoker.vertical.description': { en: 'Built-in charcoal grill with brick and steel construction, featuring multi-level grates and a powerful chimney for superior airflow.', ar: 'شواية فحم مدمجة بتصميم من الطوب والفولاذ، مع شبكات متعددة المستويات ومدخنة قوية لتدفق هواء ممتاز.' },
   'smoker.barrel.name': { en: 'Barrel Drum Smoker', ar: 'مدخنة برميلية' },
   'smoker.barrel.description': { en: 'High-capacity barrel smoker perfect for events and commercial use.', ar: 'مدخنة برميلية كبيرة السعة مثالية للمناسبات والاستخدام التجاري.' },
   'accessory.peel.name': { en: 'Pizza Peels Set', ar: 'طقم مجارف البيتزا' },
@@ -104,11 +104,11 @@ function ProductCard({ product, onClick, language }: { product: Product; onClick
       className="bg-cream/5 border-cream/10 hover:bg-cream/10 transition-all cursor-pointer group overflow-hidden"
       onClick={onClick}
     >
-      <div className="aspect-[4/3] relative overflow-hidden">
+      <div className="aspect-[4/3] relative overflow-hidden bg-white">
         <img 
           src={product.image || "/placeholder.svg"} 
           alt={name}
-          className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          className="absolute inset-0 w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-charcoal/20 to-transparent" />
         <div className="absolute bottom-3 left-3 right-3">
@@ -152,11 +152,11 @@ function ProductModal({
         </DialogHeader>
         
         <div className="mt-4">
-          <div className="aspect-video relative overflow-hidden rounded-lg mb-6">
+          <div className="aspect-video relative overflow-hidden rounded-lg mb-6 bg-white">
             <img 
               src={product.image || "/placeholder.svg"} 
               alt={name}
-              className="absolute inset-0 w-full h-full object-cover"
+              className="absolute inset-0 w-full h-full object-contain"
             />
           </div>
           
