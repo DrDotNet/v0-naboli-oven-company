@@ -104,7 +104,7 @@ function ProductCard({ product, onClick, language }: { product: Product; onClick
       className="bg-cream/5 border-cream/10 hover:bg-cream/10 transition-all cursor-pointer group overflow-hidden"
       onClick={onClick}
     >
-      <div className="aspect-[4/3] relative overflow-hidden bg-cream/10">
+      <div className="aspect-[4/3] relative overflow-hidden bg-white">
         <img 
           src={product.image || "/placeholder.svg"} 
           alt={name}
@@ -152,7 +152,7 @@ function ProductModal({
         </DialogHeader>
         
         <div className="mt-4">
-          <div className="aspect-video relative overflow-hidden rounded-lg mb-6 bg-cream/10">
+          <div className="aspect-video relative overflow-hidden rounded-lg mb-6 bg-white">
             <img 
               src={product.image || "/placeholder.svg"} 
               alt={name}
